@@ -1,6 +1,6 @@
 // Pixel wordmark build: Sahara. Loaded on demand by the engine.
 
-import { GROUND, SCENE_TOP, disc, drawSprite, fadeInOut, finalColor, hash, outCubic, pick, rand, PAD_T } from '../engine/kit'
+import { GROUND, SCENE_TOP, disc, drawSprite, fadeInOut, finalColor, hash, outCubic, pick, rand, PAD_T, choose } from '../engine/kit'
 
 // ═══ Sahara ══════════════════════════════════════════════════════════════
 const SAHARA = {
@@ -22,14 +22,14 @@ const DUNE = [
 
 const sahara = {
   name: 'sahara',
-  setup(L, S) {
-    this.time = pick(['dusk', 'dusk', 'night', 'noon'])
+  setup(L, S, V) {
+    this.time = choose(V, 'time', () => pick(['dusk', 'dusk', 'night', 'noon']))
     this.look = SAHARA[this.time]
     const w = this.wind = Math.random() < 0.5 ? 1 : -1
     this.cdir = Math.random() < 0.5 ? 1 : -1
     this.caravan = rand(L.cols * 0.25, L.cols * 0.65)
-    this.camels = Math.random() < 0.5 ? 2 : 3
-    this.palm = Math.random() < 0.5 ? (Math.random() < 0.5 ? 6 : L.cols - 8) : null
+    this.camels = Number(choose(V, 'camels', () => (Math.random() < 0.5 ? 2 : 3)))
+    this.palm = choose(V, 'palm', () => Math.random() < 0.5) ? (Math.random() < 0.5 ? 6 : L.cols - 8) : null
     this.stars = Array.from({ length: 34 }, () => [rand(0, L.cols), rand(SCENE_TOP, GROUND - 7)])
     this.streaks = Array.from({ length: 18 }, () => ({ x: rand(0, L.cols), y: rand(PAD_T, GROUND), len: rand(2, 5), v: rand(24, 38) }))
     for (let i = 0; i < L.N; i++) {
