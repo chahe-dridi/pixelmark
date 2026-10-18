@@ -4,7 +4,7 @@
 // and the barrel bursts into that letter. When he reaches DK he bonks him,
 // DK tumbles off the girder, and a heart pops up.
 
-import { GROUND, SCENE_TOP, hash, clamp01, lerp, outCubic, fadeInOut, letterMid, mainLetters, hostOf, drawSprite, drawText, drawTextCentered, stepParticles } from '../engine/kit'
+import { GROUND, SCENE_TOP, hash, clamp01, lerp, outCubic, fadeInOut, letterMid, mainLetters, hostOf, drawSprite, drawText, drawTextCentered, stepParticles, choose, dirOf } from '../engine/kit'
 import { MARIO_RUN, MARIO_JUMP, JUMPMAN_PAL } from './sprites'
 
 export const DK_IDLE = ['.....BBBBBB.....', '....BBBBBBBB....', '...BBBBBBBBBB...', '...BTTWKKWTTB...', '...BTTTTTTTTB...', '..BBTTTNNTTTBB..',
@@ -23,9 +23,9 @@ const DK = { walk: 42, barrel: 64, sc: 0.45 }
 
 const donkeykong = {
   name: 'donkeykong',
-  setup(L, S) {
-    const d = this.dir = Math.random() < 0.5 ? 1 : -1 // barrels roll in this direction
-    this.blue = Math.random() < 0.3
+  setup(L, S, V) {
+    const d = this.dir = dirOf(V) // barrels roll in this direction
+    this.blue = choose(V, 'blueBarrels', () => Math.random() < 0.3)
     this.dkX = d > 0 ? 0.2 : L.cols - 8.2
     this.dkFront = d > 0 ? this.dkX + 7.6 : this.dkX + 0.4
     // Jumpman works from the far end towards DK, facing him
