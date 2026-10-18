@@ -10,7 +10,7 @@
 //   blasters  a smuggler behind a crate against stormtroopers: their famously
 //             bad aim keeps hitting the letters, and he drops them one by one
 
-import { GROUND, SCENE_TOP, PAD_T, hash, clamp01, lerp, inOut, outCubic, inQuad, rand, pick, letterMid, mainLetters, hostOf, pixelsByLetter, disc, drawSprite, drawSpriteRot, drawTextCentered, stepParticles, stroke, ring, finalColor } from '../engine/kit'
+import { GROUND, SCENE_TOP, PAD_T, hash, clamp01, lerp, inOut, outCubic, inQuad, rand, pick, letterMid, mainLetters, hostOf, pixelsByLetter, disc, drawSprite, drawSpriteRot, drawTextCentered, stepParticles, stroke, ring, finalColor, choose, dirOf } from '../engine/kit'
 
 // ── characters (12×20, facing right, arms drawn separately) ───────────────
 export const JEDI = ['....HHHH....', '...HHHHHH...', '...HHSSSS...', '...HSSSES...', '...HSSSSS...', '....BBBBS...', '.....BBB....', '...RRTTTRR..',
@@ -41,9 +41,10 @@ const DUEL0 = 1.35, GAP = 0.45
 
 const starwars = {
   name: 'starwars',
-  setup(L, S) {
-    this.scene = pick(['duel', 'duel', 'space', 'blasters'])
-    this.dir = Math.random() < 0.5 ? 1 : -1
+  setup(L, S, V) {
+    this.V = V
+    this.scene = choose(V, 'scene', () => pick(['duel', 'duel', 'space', 'blasters']))
+    this.dir = dirOf(V)
     this.stars = Array.from({ length: 60 }, () => [rand(0, L.cols), rand(SCENE_TOP, L.rows), rand(0, 6)])
     this.sparks = []; this.sparked = new Set()
     if (this.scene === 'space') return this.setupSpace(L, S)
@@ -54,8 +55,8 @@ const starwars = {
   // ── duel ────────────────────────────────────────────────────────────────
   setupDuel(L, S) {
     const d = this.dir
-    this.blade = BLADES[pick(Object.keys(BLADES))]
-    this.double = Math.random() < 0.3
+    this.blade = BLADES[choose(this.V, 'blade', () => pick(Object.keys(BLADES)))] || BLADES.blue
+    this.double = choose(this.V, 'doubleBlade', () => Math.random() < 0.3)
     const order = mainLetters(L).sort((a, b) => (letterMid(L, a) - letterMid(L, b)) * d)
     const heights = { high: GROUND - 9.2, mid: GROUND - 7.2, low: GROUND - 5.2 }
     this.clashes = order.map((ci, k) => ({
