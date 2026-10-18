@@ -180,3 +180,15 @@ export function stroke(ctx, px, py, p, x0, y0, x1, y1, color, width, alpha = 1) 
   ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.lineWidth = Math.max(1, p * width); ctx.lineCap = 'round'
   ctx.beginPath(); ctx.moveTo(px(x0), py(y0)); ctx.lineTo(px(x1), py(y1)); ctx.stroke(); ctx.globalAlpha = 1
 }
+
+// ── Scene variants ──────────────────────────────────────────────────────
+// A scene option: the app's choice (one value, or a list to pick from at
+// random), otherwise the scene's own random pick. `V` is the scene's entry
+// in the `variants` prop, e.g. { mode: 'map', hero: ['mario', 'luigi'] }.
+export function choose(V, key, random) {
+  const c = V?.[key]
+  if (Array.isArray(c)) return c.length ? pick(c) : random()
+  return c === undefined || c === null || c === 'any' ? random() : c
+}
+// Travel direction: 'ltr' (1) or 'rtl' (-1)
+export const dirOf = (V) => (choose(V, 'direction', () => (Math.random() < 0.5 ? 'ltr' : 'rtl')) === 'rtl' ? -1 : 1)
