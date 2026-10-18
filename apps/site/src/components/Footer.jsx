@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+import { Pixelmark } from 'pixelmark'
 import Logo from './Logo'
+import { InstallCommand } from './CodeBlock'
 import { AUTHOR, NPM, REPO, VERSION } from '../lib/site'
 
 const COLS = [
@@ -17,7 +19,7 @@ const COLS = [
     links: [
       { to: '/docs#install', label: 'Install' },
       { to: '/docs#props', label: 'Props' },
-      { to: '/docs#palettes', label: 'Palettes' },
+      { to: '/docs#variants', label: 'Scene variants' },
       { to: '/docs#vanilla', label: 'Without React' },
     ],
   },
@@ -32,25 +34,26 @@ const COLS = [
   },
 ]
 
-const linkClass = 'text-fg/80 transition-colors hover:text-accent'
+const linkClass = 'text-fg/75 transition-colors hover:text-accent'
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t border-line">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_repeat(3,1fr)]">
-        <div>
-          <Link to="/" className="flex items-center gap-2 text-fg">
-            <Logo />
-            <span className="font-pixel text-[15px]">pixelmark</span>
+    <footer className="mt-32 border-t border-line bg-surface">
+      <div className="wrap grid gap-12 py-14 lg:grid-cols-[1.3fr_repeat(3,minmax(0,1fr))]">
+        <div className="max-w-sm">
+          <Link to="/" className="flex items-center gap-2.5 text-fg" aria-label="pixelmark home">
+            <Logo size={24} />
+            <span className="font-pixel text-base">pixelmark</span>
           </Link>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
+          <p className="mt-4 text-sm leading-relaxed text-muted">
             Animated pixel-art wordmarks for React. One canvas, no dependencies, and every scene loads only when it plays.
           </p>
+          <InstallCommand className="mt-6" />
         </div>
         {COLS.map((col) => (
           <div key={col.title}>
-            <h2 className="font-pixel text-xs uppercase tracking-wider text-muted">{col.title}</h2>
-            <ul className="mt-4 space-y-2.5 text-sm">
+            <h2 className="font-pixel text-[11px] uppercase tracking-widest text-muted">{col.title}</h2>
+            <ul className="mt-5 space-y-3 text-sm">
               {col.links.map((l) => (
                 <li key={l.label}>
                   {l.to
@@ -62,10 +65,16 @@ export default function Footer() {
           </div>
         ))}
       </div>
+
+      {/* The wordmark, big and quiet, as the footer's sign-off */}
+      <div className="wrap pb-6 opacity-60 transition-opacity hover:opacity-100">
+        <Pixelmark text="PIXELMARK" games={false} hold={8} ambient={false} maxWidth="100%" palette="mono" aria-label="pixelmark" />
+      </div>
+
       <div className="border-t border-line">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="wrap flex flex-col gap-2 py-5 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
-            MIT © 2026 <a href={AUTHOR.url} className="text-fg/80 hover:text-accent">{AUTHOR.name}</a> · v{VERSION}
+            MIT © 2026 <a href={AUTHOR.url} className="text-fg/80 underline decoration-line-strong underline-offset-2 hover:text-accent">{AUTHOR.name}</a> · v{VERSION}
           </p>
           <p>The game and film scenes are fan tributes, not affiliated with or endorsed by the rights holders.</p>
         </div>
