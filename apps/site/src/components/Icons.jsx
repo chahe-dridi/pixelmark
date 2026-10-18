@@ -64,3 +64,33 @@ export const SkipIcon = (p) => (
     <path d="M2 3h2v1h1v1h1v1h1v1h1v2H7v1H6v1H5v1H4v1H2zM9 3h2v1h1v1h1v1h1v1h1v2h-1v1h-1v1h-1v1h-1v1H9z" />
   </Svg>
 )
+
+export const SearchIcon = (p) => (
+  <Svg {...p}>
+    <path d="M5 1h5v1h1v1h1v1h1v5h-1v1h-1v1h1v1h1v1h1v1h1v2h-2v-1h-1v-1h-1v-1h-1v-1H9v1H5v-1H4v-1H3V9H2V4h1V3h1V2h1zm0 2v1H4v5h1v1h5V9h1V4h-1V3z" fillRule="evenodd" />
+  </Svg>
+)
+
+export const FilterIcon = (p) => (
+  <Svg {...p}>
+    <path d="M1 2h14v2h-1v1h-1v1h-1v1h-1v1h-1v6H8v1H6V8H5V7H4V6H3V5H2V4H1z" />
+  </Svg>
+)
+
+export const ShuffleIcon = (p) => (
+  <Svg {...p}>
+    <path d="M11 1h1v1h1v1h1v1h1v1h-1v1h-1v1h-1v1h-1V6H9v1H8v2h1v1h2V9h1v1h1v1h1v1h1v1h-1v1h-1v1h-1v1h-1v-2H8v-1H7v-1H6V7h1V6h1V5h3zM1 4h4v1h1v1H5v1H4V6H1zm3 5h1v1h1v1H5v1H1v-2h3z" />
+  </Svg>
+)
+
+export const ChevronIcon = (p) => (
+  <Svg {...p}>
+    <path d="M3 5h2v1h1v1h1v1h2V7h1V6h1V5h2v2h-1v1h-1v1h-1v1H9v1H7v-1H6V9H5V8H4V7H3z" />
+  </Svg>
+)
+
+export const LayersIcon = (p) => (
+  <Svg {...p}>
+    <path d="M7 1h2v1h2v1h2v1h2v2h-2v1h-2v1H9v1H7V8H5V7H3V6H1V4h2V3h2V2h2zM1 9h2v1h2v1h2v1h2v-1h2v-1h2V9h2v2h-2v1h-2v1H9v1H7v-1H5v-1H3v-1H1z" />
+  </Svg>
+)
