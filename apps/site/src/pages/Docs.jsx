@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
-import { CATALOG, PALETTES, PALETTE_NAMES, Pixelmark } from 'pixelmark'
+import { CATALOG, PALETTES, PALETTE_NAMES, Pixelmark, VARIANTS } from 'pixelmark'
 import CodeBlock, { InstallCommand } from '../components/CodeBlock'
 import { REPO } from '../lib/site'
+import { ROUTES } from '../lib/meta'
+import { useSEO } from '../lib/useSEO'
 
 const SECTIONS = [
   ['install', 'Install'],
@@ -10,6 +12,7 @@ const SECTIONS = [
   ['palettes', 'Palettes'],
   ['accent', 'Accent'],
   ['builds', 'Builds'],
+  ['variants', 'Scene variants'],
   ['vanilla', 'Without React'],
   ['notes', 'Performance & a11y'],
 ]
@@ -22,6 +25,7 @@ const PROPS = [
   ['build', 'BuildName', '—', 'Pin one build; it replays every cycle.'],
   ['builds', 'BuildName[]', 'all', 'Only rotate through these builds.'],
   ['games', 'boolean', 'true', 'Include the game & story scenes. They need single-line text.'],
+  ['variants', '{ [scene]: { [key]: value | value[] } }', 'all random', 'Choose scene variants: a value pins it, a list shuffles between those. See Scene variants.'],
   ['colorStyle', "'bands' | 'solid' | 'letters' | 'mosaic' | 'stripes'", 'rotates', 'Pin one colour style.'],
   ['label', 'string', 'first word', 'Short text a few scenes print (XP installer, Street Fighter HUD, Marauder\'s Map).'],
   ['hold', 'number', '6', 'Seconds the finished wordmark holds before it rebuilds.'],
@@ -80,7 +84,17 @@ const ACCENT_CODE = `<Pixelmark text="Software Engineer" accent="rest" />   // E
 <Pixelmark text="CUBEXIO" accent={[4]} />                // just the X
 <Pixelmark text="ABC" accent={(ch) => 'AEIOU'.includes(ch)} />`
 
-const VANILLA = `import { mount } from 'pixelmark/vanilla'
+const VARIANTS_CODE = `<Pixelmark
+  text="Hello"
+  builds={['mario', 'starwars', 'dragonball']}
+  variants={{
+    mario: { mode: 'map', hero: 'luigi' },   // always the world map, always Luigi
+    starwars: { scene: ['duel', 'space'] },   // a duel or a space battle, never blasters
+    dragonball: { mode: 'spirit' },           // the Spirit Bomb, every time
+  }}
+/>`
+
+const VANILLA =`import { mount } from 'pixelmark/vanilla'
 
 const mark = mount(document.querySelector('#logo'), {
   text: 'HELLO',
@@ -97,14 +111,15 @@ const H2 = ({ id, children }) => (
 const Code = ({ children }) => <code className="bg-raised px-1.5 py-0.5 font-mono text-[0.85em] text-fg">{children}</code>
 
 export default function Docs() {
+  useSEO({ ...ROUTES['/docs'], path: '/docs' })
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-12 sm:px-6">
+    <div className="wrap pt-10 sm:pt-14">
       <header className="max-w-2xl">
         <p className="font-pixel text-xs uppercase tracking-wider text-accent">Docs</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight text-fg sm:text-5xl">Everything it takes.</h1>
       </header>
 
-      <div className="mt-10 grid gap-12 lg:grid-cols-[180px_1fr]">
+      <div className="mt-10 grid gap-12 lg:grid-cols-[200px_minmax(0,1fr)] 2xl:grid-cols-[240px_minmax(0,1fr)_200px]">
         <nav aria-label="On this page" className="hidden lg:block">
           <ul className="sticky top-24 space-y-2 text-sm">
             {SECTIONS.map(([id, label]) => (
@@ -113,7 +128,7 @@ export default function Docs() {
           </ul>
         </nav>
 
-        <article className="min-w-0 max-w-3xl space-y-6 leading-relaxed text-fg/90">
+        <article className="min-w-0 max-w-4xl space-y-6 leading-relaxed text-fg/90">
           <h2 id="install" className="scroll-mt-24 text-2xl font-bold tracking-tight text-fg">Install</h2>
           <InstallCommand className="max-w-md" />
           <p className="text-muted">
@@ -189,6 +204,30 @@ export default function Docs() {
             ))}
           </div>
 
+          <H2 id="variants">Scene variants</H2>
+          <p className="text-muted">
+            Most scenes pick their variants at random on every play. <Code>variants</Code> lets you choose, per scene: a single
+            value pins it, a list shuffles between only those, and a key you leave out stays random. Scenes you don't mention are
+            untouched. <Code>VARIANTS</Code> exports every scene's keys, values and labels.
+          </p>
+          <CodeBlock title="variants.jsx" code={VARIANTS_CODE} />
+          <div className="overflow-x-auto border border-line">
+            <table className="w-full min-w-[560px] text-left text-sm">
+              <thead className="bg-surface text-xs uppercase tracking-wider text-muted">
+                <tr><th className="px-3 py-2.5 font-medium">Scene</th><th className="px-3 py-2.5 font-medium">Key</th><th className="px-3 py-2.5 font-medium">Values</th></tr>
+              </thead>
+              <tbody className="divide-y divide-line">
+                {Object.entries(VARIANTS).flatMap(([scene, opts]) => opts.map((o, k) => (
+                  <tr key={scene + o.key} className="align-top">
+                    <td className="px-3 py-2 font-mono text-accent">{k === 0 ? <Link to={`/builds/${scene}`} className="hover:underline">{scene}</Link> : ''}</td>
+                    <td className="px-3 py-2 font-mono">{o.key}</td>
+                    <td className="px-3 py-2 font-mono text-xs text-muted">{o.options.map(([v]) => JSON.stringify(v)).join(' · ')}</td>
+                  </tr>
+                )))}
+              </tbody>
+            </table>
+          </div>
+
           <H2 id="vanilla">Without React</H2>
           <p className="text-muted">
             <Code>pixelmark/vanilla</Code> mounts the same engine on any canvas: Vue, Svelte, Astro or a plain page.
@@ -205,7 +244,7 @@ export default function Docs() {
           </ul>
           <p className="text-muted">
             Want to add a build? The contract is short; see{' '}
-            <a href={`${REPO}/blob/main/CONTRIBUTING.md`} className="text-accent hover:underline">CONTRIBUTING.md</a>.
+            <a href={`${REPO}/blob/main/CONTRIBUTING.md`} className="text-accent underline decoration-accent/40 underline-offset-2 hover:decoration-accent">CONTRIBUTING.md</a>.
           </p>
         </article>
       </div>
