@@ -6,7 +6,7 @@
 // punches, kicks, uppercuts, hurricane kicks and fireballs; every landed hit
 // reveals the next stretch of the wordmark.
 
-import { PAD_T, GROUND, SCENE_TOP, hash, clamp01, lerp, outCubic, rand, pick, disc, drawSprite, drawText, drawTextCentered, textWidth, stepParticles, finalColor } from '../engine/kit'
+import { PAD_T, GROUND, SCENE_TOP, hash, clamp01, lerp, outCubic, rand, pick, disc, drawSprite, drawText, drawTextCentered, textWidth, stepParticles, finalColor, choose, dirOf } from '../engine/kit'
 
 export const S_STANCE = ['....HHHH....', '...HHHHHH...', 'BB.BBBBBB...', '.B.SSSSSS...', '...SSESSE...', '....SSSS....', '..WWWWWWWW..', '.WWGWWWWGWW.',
   '.WW.WWWW.SSS', 'SSS.WWWW.SS.', '....KKKK....', '...WWWWWW...', '..WWW..WWW..', '.WWW....WWW.', 'WWW......WWW', 'FF........FF']
@@ -47,14 +47,14 @@ const dirOf = (s) => (s === 'L' ? 1 : -1)
 
 const streetfighter = {
   name: 'streetfighter',
-  setup(L, S) {
+  setup(L, S, V) {
     this.pals = Math.random() < 0.5 ? { L: RYU, R: KEN } : { L: KEN, R: RYU }
     this.home = { L: 8, R: L.cols - 8 - FW }
     // this round's place in the match, and who takes it
     const match = loadMatch()
     this.prevWins = { ...match }
     const round = match.L + match.R
-    const winner = Math.random() < 0.62 ? 'L' : 'R'
+    const winner = choose(V, 'winner', () => (Math.random() < 0.62 ? 'L' : 'R'))
     match[winner]++
     const over = match[winner] >= 2
     saveMatch(over ? { L: 0, R: 0 } : match)
