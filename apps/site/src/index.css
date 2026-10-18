@@ -2,10 +2,11 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Design tokens. Dark is the default; html.light swaps the surface colours.
-   The accent matches the library's `ocean` palette. */
+/* Design tokens. Dark is the default; html.light swaps the surfaces.
+   The accent matches the library's `ocean` palette, the hot accent its
+   `ember` palette. */
 @theme {
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --font-pixel: "Silkscreen", ui-monospace, monospace;
 
@@ -13,36 +14,60 @@
   --color-surface: var(--surface);
   --color-raised: var(--raised);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --color-accent-fg: var(--accent-fg);
+  --color-hot: var(--hot);
+  --color-stage: var(--stage);
+
+  --animate-marquee: marquee 60s linear infinite;
+  --animate-blink: blink 1.1s steps(1) infinite;
+
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
 }
 
 :root,
 .dark {
-  --bg: #0b0b10;
-  --surface: #12121a;
-  --raised: #1a1a25;
-  --line: #262635;
-  --fg: #ecedf5;
-  --muted: #8b8da3;
-  --accent: #3b82f6;
-  --accent-fg: #ffffff;
-  --grid-dot: rgba(255, 255, 255, 0.045);
+  --bg: #07070c;
+  --surface: #0e0e16;
+  --raised: #171723;
+  --line: #22222f;
+  --line-strong: #34344a;
+  --fg: #eef0fa;
+  --muted: #9093ab;
+  --accent: #4b8dff;
+  --accent-soft: rgba(75, 141, 255, 0.14);
+  --accent-fg: #050510; /* dark ink on the bright blue: 6:1 contrast */
+  --hot: #ff7a45;
+  --stage: #05050a;
+  --grid-dot: rgba(255, 255, 255, 0.05);
+  --scan: rgba(255, 255, 255, 0.022);
   color-scheme: dark;
 }
 
 .light {
-  --bg: #f7f7f4;
+  --bg: #f6f6f1;
   --surface: #ffffff;
-  --raised: #f0f0eb;
-  --line: #e2e2da;
-  --fg: #15151c;
-  --muted: #62626f;
-  --accent: #2563eb;
+  --raised: #efefe8;
+  --line: #e1e1d8;
+  --line-strong: #c9c9bd;
+  --fg: #12121a;
+  --muted: #5d5e6b;
+  --accent: #2259e0;
+  --accent-soft: rgba(34, 89, 224, 0.1);
   --accent-fg: #ffffff;
-  --grid-dot: rgba(0, 0, 0, 0.06);
+  --hot: #d9481a;
+  --stage: #fbfbf7;
+  --grid-dot: rgba(0, 0, 0, 0.07);
+  --scan: rgba(0, 0, 0, 0.025);
   color-scheme: light;
 }
 
@@ -50,27 +75,55 @@ html {
   background: var(--bg);
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-sans);
   background: var(--bg);
   min-height: 100dvh;
+  overflow-x: clip;
 }
 
-/* A faint pixel grid behind the page */
-.pixel-grid {
+/* Page width: fully fluid, so zooming out (or an ultra-wide monitor) uses
+   the whole screen instead of a fixed column. Grids gain columns as the
+   page widens; text blocks keep their own max-width. */
+@utility wrap {
+  width: 100%;
+  padding-inline: clamp(1rem, 3.5vw, 4rem);
+}
+
+/* A faint pixel grid */
+@utility pixel-grid {
   background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
   background-size: 12px 12px;
 }
 
-/* Square, pixel-stepped corners for chips and buttons */
-.pixel-corners {
+/* The preview stage: grid, CRT scanlines and a soft vignette */
+@utility stage {
+  position: relative;
+  background-color: var(--stage);
+  background-image:
+    repeating-linear-gradient(to bottom, var(--scan) 0 1px, transparent 1px 3px),
+    radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: auto, 12px 12px;
+}
+
+/* Square, pixel-stepped corners */
+@utility pixel-corners {
   clip-path: polygon(
     0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
     100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%,
     4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
   );
+}
+
+/* A stepped, 8-bit underline for headings */
+@utility pixel-rule {
+  height: 6px;
+  background:
+    linear-gradient(90deg, var(--accent) 0 40%, transparent 40% 45%, var(--accent) 45% 60%, transparent 60% 64%, var(--hot) 64% 72%, transparent 72%);
 }
 
 ::selection {
@@ -83,8 +136,18 @@ body {
   outline-offset: 2px;
 }
 
+/* Thin, themed scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
