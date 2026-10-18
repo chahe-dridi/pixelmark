@@ -4,7 +4,7 @@
 // hisses and blows a crater, which Steve repairs. Sometimes the Ender Dragon
 // sweeps across. Finally every block "smelts" into the wordmark colours.
 
-import { PAD_T, GH, GROUND, SCENE_TOP, hash, clamp01, lerp, inOut, follow, rand, pick, shuffled, fadeInOut, letterMid, mainLetters, hostOf, disc, drawSprite, stepParticles, finalColor } from '../engine/kit'
+import { PAD_T, GH, GROUND, SCENE_TOP, hash, clamp01, lerp, inOut, follow, rand, pick, shuffled, fadeInOut, letterMid, mainLetters, hostOf, disc, drawSprite, stepParticles, finalColor, choose, dirOf } from '../engine/kit'
 
 const MC = {
   stone: ['#8F8F8F', '#7A7A7A', '#A3A3A3'], dirt: ['#8B5A2B', '#6E4520', '#9C6B3A'], planks: ['#B8945F', '#9C7A48', '#CDAA70'],
@@ -106,8 +106,8 @@ const LT = 0.27 // seconds to place one letter
 
 const minecraft = {
   name: 'minecraft',
-  setup(L, S) {
-    const d = this.dir = Math.random() < 0.5 ? 1 : -1
+  setup(L, S, V) {
+    const d = this.dir = dirOf(V)
     const keys = Object.keys(MC)
     const mats = shuffled(keys.length).map((k) => keys[k])
     this.mat = L.CX0.map((_, ci) => (L.ACC.some((a, i) => a && L.CI[i] === ci) ? 'tnt' : mats[ci % mats.length]))
@@ -145,7 +145,7 @@ const minecraft = {
     this.eX2 = d > 0 ? rand(L.cols * 0.6, L.cols - 6) : rand(3, L.cols * 0.4)
     if (this.stolen >= 0) S.DL[this.stolen] = this.eBack
     // the Ender Dragon, sometimes
-    this.dragon = Math.random() < 0.6 ? { at: rand(0.5, 1.2), dir: Math.random() < 0.5 ? 1 : -1 } : null
+    this.dragon = choose(V, 'dragon', () => Math.random() < 0.6) ? { at: rand(0.5, 1.2), dir: Math.random() < 0.5 ? 1 : -1 } : null
     this.ts = this.te + 1.2
     this.cside = d > 0 ? 1 : -1
     this.cx0 = this.cside > 0 ? L.cols + 1 : -5
