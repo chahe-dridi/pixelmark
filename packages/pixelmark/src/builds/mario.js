@@ -9,7 +9,7 @@
 //        node, bumps the ? box over each one, and its letter drops into
 //        place; he ends at the castle.
 
-import { PAD_T, GROUND, SCENE_TOP, clamp01, lerp, outCubic, inQuad, rand, shuffled, fadeInOut, letterMid, mainLetters, hostOf, drawSprite, drawText, drawTextCentered, stepParticles, finalColor, hash } from '../engine/kit'
+import { PAD_T, GROUND, SCENE_TOP, clamp01, lerp, outCubic, inQuad, rand, shuffled, fadeInOut, letterMid, mainLetters, hostOf, drawSprite, drawText, drawTextCentered, stepParticles, finalColor, hash, choose } from '../engine/kit'
 import { MARIO_RUN, MARIO_JUMP, MARIO_PAL, LUIGI_PAL } from './sprites'
 
 export const STAR_PALS = [
@@ -53,19 +53,20 @@ const MARIO_V = 27, JUMP = 0.36, JUMP_H = 5, PIPE_W = 4.2, PIPE_H = 4.2
 
 const mario = {
   name: 'mario',
-  setup(L, S) {
-    this.hero = Math.random() < 0.3 ? 'luigi' : 'mario'
-    this.mode = Math.random() < 0.4 ? 'map' : 'run'
+  setup(L, S, V) {
+    this.V = V
+    this.hero = choose(V, 'hero', () => (Math.random() < 0.3 ? 'luigi' : 'mario'))
+    this.mode = choose(V, 'mode', () => (Math.random() < 0.4 ? 'map' : 'run'))
     this.pops = []; this.debris = []; this.spawned = new Set()
     return this.mode === 'map' ? this.setupMap(L, S) : this.setupRun(L, S)
   },
 
   // ── run ─────────────────────────────────────────────────────────────────
   setupRun(L, S) {
-    this.star = Math.random() < 0.2
-    this.theme = THEMES[Math.random() < 0.3 ? 'under' : 'over']
+    this.star = choose(this.V, 'star', () => Math.random() < 0.2)
+    this.theme = THEMES[choose(this.V, 'world', () => (Math.random() < 0.3 ? 'under' : 'over'))]
     this.under = this.theme === THEMES.under
-    this.ending = Math.random() < 0.5 ? 'pipe' : 'flag'
+    this.ending = choose(this.V, 'ending', () => (Math.random() < 0.5 ? 'pipe' : 'flag'))
     this.flagScored = false
     const v = this.v = MARIO_V * (this.star ? 1.12 : 1)
     this.x0 = -7
