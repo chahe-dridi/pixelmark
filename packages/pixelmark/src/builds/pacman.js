@@ -1,6 +1,6 @@
 // Pixel wordmark build: Pac-Man. Loaded on demand by the engine.
 
-import { SCENE_TOP, clamp01, disc, drawSprite, drawTextCentered, fadeInOut, lerp, letterMid, mainLetters, pick, shuffled, PAD_T } from '../engine/kit'
+import { SCENE_TOP, clamp01, disc, drawSprite, drawTextCentered, fadeInOut, lerp, letterMid, mainLetters, pick, shuffled, PAD_T, choose, dirOf } from '../engine/kit'
 
 // ═══ Pac-Man ═════════════════════════════════════════════════════════════
 export const GHOST = [
@@ -38,20 +38,20 @@ function drawPac(ctx, box, cx, cy, r, dir, mouth) {
 
 const pacman = {
   name: 'pacman',
-  setup(L, S) {
-    const d = this.dir = Math.random() < 0.5 ? 1 : -1
+  setup(L, S, V) {
+    const d = this.dir = dirOf(V)
     this.start = d > 0 ? -7 : L.cols + 7
     this.v = (L.cols + 14) / PAC_T
     this.cy = PAD_T + 6.5
     const names = shuffled(4).map((k) => ['blinky', 'pinky', 'inky', 'clyde'][k])
     this.ahead = names[0]
-    this.chasers = names.slice(1, Math.random() < 0.5 ? 3 : 4)
+    this.chasers = names.slice(1, 1 + Number(choose(V, 'ghosts', () => (Math.random() < 0.5 ? 2 : 3))))
     // the power pellet: far enough in that the ghost ahead gets eaten on screen
     const mains = mainLetters(L)
     const ok = mains.slice(1).filter((ci) => (d > 0 ? letterMid(L, ci) + 20 < L.cols : letterMid(L, ci) - 20 > 0))
     this.pp = letterMid(L, ok.length ? pick(ok) : mains[1])
     this.tp = ((this.pp - this.start) * d) / this.v
-    this.cherry = Math.random() < 0.55 ? letterMid(L, mains[d > 0 ? 1 : mains.length - 2]) : null
+    this.cherry = choose(V, 'cherry', () => Math.random() < 0.55) ? letterMid(L, mains[d > 0 ? 1 : mains.length - 2]) : null
     this.ax0 = this.pp + d * 15
     this.va = this.v * 0.38
     this.xaTp = this.ax0 + Math.sin(this.tp * 3) * 2
