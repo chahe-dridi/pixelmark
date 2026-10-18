@@ -245,7 +245,8 @@ export function createEngine(canvas, opts) {
     cycles++
     prefetch()
     for (let i = 0; i < L.N; i++) { SW[i] = Math.random() < 0.5 ? -1 : 1; OX[i] = 0; OY[i] = 0 }
-    total = build.setup(L, S)
+    // scenes take their variant choices (see the `variants` option)
+    total = build.setup(L, S, opts.variants?.[build.name] || {})
     computeTones()
     phase = 'build'; t = 0
     if (opts.onBuild) opts.onBuild(build.name)
