@@ -6,7 +6,7 @@
 // punches, kicks, uppercuts, hurricane kicks and fireballs; every landed hit
 // reveals the next stretch of the wordmark.
 
-import { PAD_T, GROUND, SCENE_TOP, hash, clamp01, lerp, outCubic, rand, pick, disc, drawSprite, drawText, drawTextCentered, textWidth, stepParticles, finalColor, choose, dirOf } from '../engine/kit'
+import { PAD_T, GROUND, SCENE_TOP, hash, clamp01, lerp, outCubic, rand, pick, disc, drawSprite, drawText, drawTextCentered, textWidth, stepParticles, finalColor, choose } from '../engine/kit'
 
 export const S_STANCE = ['....HHHH....', '...HHHHHH...', 'BB.BBBBBB...', '.B.SSSSSS...', '...SSESSE...', '....SSSS....', '..WWWWWWWW..', '.WWGWWWWGWW.',
   '.WW.WWWW.SSS', 'SSS.WWWW.SS.', '....KKKK....', '...WWWWWW...', '..WWW..WWW..', '.WWW....WWW.', 'WWW......WWW', 'FF........FF']
