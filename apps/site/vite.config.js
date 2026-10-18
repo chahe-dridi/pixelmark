@@ -20,5 +20,6 @@ export default defineConfig({
   define: {
     __PIXELMARK_VERSION__: JSON.stringify(version),
   },
-  build: { sourcemap: false },
+  // the manifest lets the prerender step preload each route's own chunks
+  build: { sourcemap: false, manifest: true },
 })
