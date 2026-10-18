@@ -1,6 +1,6 @@
 // Pixel wordmark build: Snake. Loaded on demand by the engine.
 
-import { SCENE_TOP, clamp01, disc, drawText, finalColor, hostOf, mainLetters, pixelsByLetter, rand, stepParticles, strokeWalk, textWidth } from '../engine/kit'
+import { SCENE_TOP, clamp01, disc, drawText, finalColor, hostOf, mainLetters, pixelsByLetter, rand, stepParticles, strokeWalk, textWidth, choose } from '../engine/kit'
 
 // ═══ Snake ═══════════════════════════════════════════════════════════════
 const SNAKE_T = 2.3, SNAKE_LEN = 10
@@ -9,8 +9,8 @@ const LCD = { bg: '#B5C79C', grid: '#A6B98D', ink: '#2F3A26' }
 
 const snake = {
   name: 'snake',
-  setup(L, S) {
-    this.nokia = Math.random() < 0.4
+  setup(L, S, V) {
+    this.nokia = choose(V, 'screen', () => (Math.random() < 0.4 ? 'nokia' : 'modern')) === 'nokia'
     const groups = pixelsByLetter(L)
     const mains = mainLetters(L)
     const walks = mains.map((ci) => {
@@ -20,7 +20,7 @@ const snake = {
       return walk.map((i) => [L.X[i], L.Y[i], i])
     })
     // one snake per letter, or two long snakes crossing between letters
-    const lanes = Math.random() < 0.5 ? walks.map((w) => [w]) : [walks.slice(0, Math.ceil(walks.length / 2)), walks.slice(Math.ceil(walks.length / 2))]
+    const lanes = choose(V, 'snakes', () => (Math.random() < 0.5 ? 'many' : 'two')) === 'many' ? walks.map((w) => [w]) : [walks.slice(0, Math.ceil(walks.length / 2)), walks.slice(Math.ceil(walks.length / 2))]
     this.snakes = lanes.map((ws, k) => {
       const cells = [], apples = []
       for (const w of ws) {
