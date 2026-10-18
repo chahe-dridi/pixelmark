@@ -7,7 +7,7 @@
 //          gather from the stars
 // Every kill story picks a different impostor than the previous one.
 
-import { PAD_T, GH, GROUND, SCENE_TOP, hash, clamp01, lerp, outCubic, rand, shuffled, letterMid, mainLetters, hostOf, drawSprite, drawSpriteRot, drawText, drawTextCentered, textWidth, finalColor } from '../engine/kit'
+import { PAD_T, GH, GROUND, SCENE_TOP, hash, clamp01, lerp, outCubic, rand, shuffled, letterMid, mainLetters, hostOf, drawSprite, drawSpriteRot, drawText, drawTextCentered, textWidth, finalColor, choose } from '../engine/kit'
 
 export const CREW = [
   ['....CCCC....', '...CCCCCC...', '..CCCVVVVV..', '.DCCVVWWVVV.', 'DDCCVVVVVVV.', 'DDCCCVVVVV..', 'DDCCCCCCCC..', 'DDCCCCCCCC..',
@@ -37,8 +37,9 @@ const palOf = (c) => ({ C: c[0], D: c[1], ...VISOR })
 
 const amongus = {
   name: 'amongus',
-  setup(L, S) {
-    this.story = nextStory()
+  setup(L, S, V) {
+    this.V = V
+    this.story = choose(V, 'story', nextStory)
     return this.story === 'kill' ? this.setupKill(L, S) : this.setupEject(L, S)
   },
 
@@ -85,7 +86,7 @@ const amongus = {
     walk(imp, mid - SW / 2, meet)
     const vside = victim.x < imp.x ? -1 : 1
     this.tKill = Math.max(victim.t, imp.t) + 0.35
-    this.killStyle = Math.random() < 0.6 ? 'knife' : 'tongue'
+    this.killStyle = choose(this.V, 'kill', () => (Math.random() < 0.6 ? 'knife' : 'tongue'))
     this.splat = []
     imp.plan.push({ t0: imp.t, t1: this.tKill, x0: imp.x, x1: victim.x - vside * 3.2 })
     imp.x = victim.x - vside * 3.2; imp.t = this.tKill
