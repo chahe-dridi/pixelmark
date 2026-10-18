@@ -44,7 +44,64 @@ export const CATALOG = [
   { name: 'starwars', title: 'Star Wars', kind: 'scene', tags: ['film', 'fighting'], description: '"A long time ago…", then a lightsaber duel, a space battle or a blaster shootout.' },
 ]
 
-export const CLASSIC_BUILD_NAMES = CATALOG.filter((b) => b.kind === 'classic').map((b) => b.name)
+// ── Scene variants ──────────────────────────────────────────────────────
+// Each scene picks these at random every play. Pass `variants` to choose:
+//   variants={{ mario: { mode: 'map' }, starwars: { scene: ['duel', 'space'] } }}
+// One value pins it, an array picks among those, leaving it out keeps all.
+const DIRECTION = { key: 'direction', label: 'Direction', options: [['ltr', 'Left to right'], ['rtl', 'Right to left']] }
+const yesNo = (key, label) => ({ key, label, options: [[true, 'Yes'], [false, 'No']] })
+
+export const VARIANTS = {
+  mario: [
+    { key: 'mode', label: 'Level', options: [['run', 'Side-scrolling run'], ['map', 'SMB3 world map']] },
+    { key: 'hero', label: 'Hero', options: [['mario', 'Mario'], ['luigi', 'Luigi']] },
+    { key: 'world', label: 'World (run)', options: [['over', 'Overworld'], ['under', 'Underground']] },
+    { key: 'ending', label: 'Ending (run)', options: [['pipe', 'Warp pipe'], ['flag', 'Flagpole']] },
+    yesNo('star', 'Star power (run)'),
+  ],
+  pacman: [DIRECTION, { key: 'ghosts', label: 'Chasing ghosts', options: [[2, 'Two'], [3, 'Three']] }, yesNo('cherry', 'Cherry')],
+  snake: [
+    { key: 'screen', label: 'Screen', options: [['modern', 'Modern'], ['nokia', 'Nokia LCD']] },
+    { key: 'snakes', label: 'Snakes', options: [['many', 'One per letter'], ['two', 'Two long ones']] },
+  ],
+  invaders: [
+    { key: 'invader', label: 'Invaders', options: [['mixed', 'Mixed'], ['crab', 'Crabs'], ['squid', 'Squids']] },
+    yesNo('ufo', 'Mystery ship'),
+  ],
+  streetfighter: [{ key: 'winner', label: 'Round winner', options: [['L', 'Your label'], ['R', 'BUGS']] }],
+  minecraft: [DIRECTION, yesNo('dragon', 'Ender Dragon flyover')],
+  sonic: [DIRECTION, yesNo('tails', 'Tails'), yesNo('eggman', 'Eggman')],
+  amongus: [
+    { key: 'story', label: 'Story', options: [['kill', 'Tasks and a kill'], ['eject', 'Ejection']] },
+    { key: 'kill', label: 'Kill (story)', options: [['knife', 'Knife'], ['tongue', 'Tongue']] },
+  ],
+  angrybirds: [{ key: 'material', label: 'Letters made of', options: [['mixed', 'Mixed'], ['wood', 'Wood'], ['ice', 'Ice'], ['stone', 'Stone']] }],
+  donkeykong: [DIRECTION, yesNo('blueBarrels', 'Blue barrels')],
+  harrypotter: [{ key: 'spell', label: 'Spell', options: [['map', "Marauder's Map"], ['patronus', 'Patronus']] }, DIRECTION],
+  dragonball: [
+    { key: 'mode', label: 'Scene', options: [['solo', 'Solo beam'], ['win', 'Beam clash'], ['rescue', 'Last-second rescue'], ['duo', 'Goku & Vegeta'], ['spirit', 'Spirit Bomb']] },
+    { key: 'villain', label: 'Villain (clash)', options: [['broly', 'Broly'], ['frieza', 'Frieza'], ['jiren', 'Jiren'], ['beerus', 'Beerus']] },
+    { key: 'hero', label: 'Star (solo)', options: [['goku', 'Goku'], ['vegeta', 'Vegeta'], ['piccolo', 'Piccolo']] },
+    { key: 'form', label: "Goku's form", options: [['base', 'Base'], ['ssj1', 'Super Saiyan'], ['ssj2', 'SSJ 2'], ['ssj3', 'SSJ 3'], ['ssg', 'Super Saiyan God'], ['ui', 'Ultra Instinct'], ['transform', 'Powers up (solo)']] },
+    { key: 'helper', label: 'Rescuer', options: [['vegeta', 'Vegeta'], ['piccolo', 'Piccolo']] },
+    DIRECTION,
+  ],
+  sahara: [
+    { key: 'time', label: 'Time of day', options: [['dusk', 'Dusk'], ['night', 'Night'], ['noon', 'Noon']] },
+    { key: 'camels', label: 'Camels', options: [[2, 'Two'], [3, 'Three']] },
+    yesNo('palm', 'Palm tree'),
+  ],
+  sidibousaid: [{ key: 'doors', label: 'Doors', options: [['mixed', 'Mixed'], ['blue', 'All blue'], ['yellow', 'All yellow']] }, yesNo('cat', 'Cat')],
+  starwars: [
+    { key: 'scene', label: 'Scene', options: [['duel', 'Lightsaber duel'], ['space', 'Space battle'], ['blasters', 'Blaster shootout']] },
+    { key: 'blade', label: 'Jedi blade (duel)', options: [['blue', 'Blue'], ['green', 'Green'], ['purple', 'Purple']] },
+    yesNo('doubleBlade', 'Double-bladed Sith (duel)'),
+    DIRECTION,
+  ],
+}
+for (const b of CATALOG) b.variants = VARIANTS[b.name] || []
+
+export const CLASSIC_BUILD_NAMES =CATALOG.filter((b) => b.kind === 'classic').map((b) => b.name)
 export const SCENE_BUILD_NAMES = CATALOG.filter((b) => b.kind === 'scene').map((b) => b.name)
 export const BUILD_NAMES = CATALOG.map((b) => b.name)
 export const TAGS = [...new Set(CATALOG.flatMap((b) => b.tags))].sort()
