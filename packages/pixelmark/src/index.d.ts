@@ -8,6 +8,13 @@ export type SceneBuildName =
   | 'mario' | 'pacman' | 'snake' | 'invaders' | 'xpboot' | 'streetfighter' | 'minecraft' | 'sonic' | 'amongus'
   | 'angrybirds' | 'donkeykong' | 'harrypotter' | 'dragonball' | 'sahara' | 'sidibousaid' | 'starwars'
 
+export type VariantValue = string | number | boolean
+export interface VariantOption {
+  key: string
+  label: string
+  options: [VariantValue, string][]
+}
+
 export type BuildName = ClassicBuildName | SceneBuildName
 export type ColorStyle = 'bands' | 'solid' | 'letters' | 'mosaic' | 'stripes'
 export type PaletteName = 'ocean' | 'ember' | 'mint' | 'violet' | 'rose' | 'gold' | 'mono'
@@ -46,6 +53,13 @@ export interface PixelmarkOptions {
   build?: BuildName
   /** Only play the builds listed. */
   builds?: BuildName[]
+  /**
+   * Choose scene variants, keyed by scene name. A value pins it, an array picks
+   * among those at random, leaving a key out keeps every option.
+   * e.g. { mario: { mode: 'map' }, starwars: { scene: ['duel', 'space'] } }
+   * See VARIANTS for every scene's keys and values.
+   */
+  variants?: Partial<Record<SceneBuildName, Record<string, VariantValue | VariantValue[]>>>
   /** Include the game and story scenes (single-line text only). Default true. */
   games?: boolean
   /** Pin one colour style instead of rotating through them. */
@@ -88,7 +102,10 @@ export interface CatalogEntry {
   kind: 'classic' | 'scene'
   tags: string[]
   description: string
+  /** The scene's variant options (empty for classic builds). */
+  variants: VariantOption[]
 }
+export declare const VARIANTS: Record<SceneBuildName, VariantOption[]>
 export declare const CATALOG: CatalogEntry[]
 export declare const BUILD_NAMES: BuildName[]
 export declare const CLASSIC_BUILD_NAMES: ClassicBuildName[]

@@ -19,6 +19,6 @@ export function mount(canvas, options = {}) {
   return createEngine(canvas, { ...options, text, reduced: options.reduced ?? reduced })
 }
 
-export { CATALOG, BUILD_NAMES, CLASSIC_BUILD_NAMES, SCENE_BUILD_NAMES, TAGS, COLOR_STYLES } from './catalog'
+export { CATALOG, VARIANTS, BUILD_NAMES, CLASSIC_BUILD_NAMES, SCENE_BUILD_NAMES, TAGS, COLOR_STYLES } from './catalog'
 export { PALETTES, PALETTE_NAMES, makePalette } from './engine/palettes'
 export { normalizeText, wordmarkSize } from './engine/glyphs'
