@@ -4,7 +4,7 @@
 // its patch of the letter. Tails flies along overhead. Dr. Eggman hovers at
 // the far end, gets bonked and flies off smoking.
 
-import { PAD_T, GROUND, SCENE_TOP, hash, clamp01, lerp, outCubic, follow, rand, pick, mainLetters, disc, drawSprite, drawText, textWidth, stepParticles, finalColor } from '../engine/kit'
+import { PAD_T, GROUND, SCENE_TOP, hash, clamp01, lerp, outCubic, follow, rand, pick, mainLetters, disc, drawSprite, drawText, textWidth, stepParticles, finalColor, choose, dirOf } from '../engine/kit'
 
 export const SONIC_RUN = [
   ['.....BBB....', '...BBBBBB...', 'BBBBBBBWWW..', '.BBBBBBWKWP.', 'BBBBBBPPPPPK', '..BBBBPPPP..', '.BBBBBBPP...',
@@ -36,8 +36,8 @@ function drawBall(ctx, box, cx, cy, r, spin) {
 
 const sonic = {
   name: 'sonic',
-  setup(L, S) {
-    const d = this.dir = Math.random() < 0.5 ? 1 : -1
+  setup(L, S, V) {
+    const d = this.dir = dirOf(V)
     const letters = mainLetters(L)
     if (d < 0) letters.reverse()
     // the track: up each letter's leading side, across its top, down the
@@ -68,7 +68,7 @@ const sonic = {
       this.segOf.set(ci, [s0, pts.length - 1])
     }
     // the finish: a leap at Eggman, or straight off the edge
-    this.egg = Math.random() < 0.75
+    this.egg = choose(V, 'eggman', () => Math.random() < 0.75)
     this.eggX = d > 0 ? L.cols - 8.5 : 1.5; this.eggY = PAD_T - 0.5
     const lastX = pts[pts.length - 1][0]
     if (this.egg) {
@@ -101,7 +101,7 @@ const sonic = {
       S.SX[i] = pts[bestK][0] - 0.5; S.SY[i] = pts[bestK][1] - 0.5
       S.DL[i] = timeAt(bestK) + (hash(i, 1, 2) / 1000) * 0.06; S.DU[i] = 0.45
     }
-    this.tails = Math.random() < 0.75 ? [this.pts[0][0] - d * 8, SCENE_TOP + 1] : null
+    this.tails = choose(V, 'tails', () => Math.random() < 0.75) ? [this.pts[0][0] - d * 8, SCENE_TOP + 1] : null
     this.count = 0; this.sparkles = []; this.smoke = []; this.hitDone = false
     this.dust = []
     this.tEnd = this.t0 + this.cum[this.cum.length - 1] / this.v
