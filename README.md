@@ -20,6 +20,7 @@ Give it any text and it builds it out of pixels: with a laser, falling sand, Mat
 ## Features
 
 - **35 builds.** 19 classic pixel effects and 16 game & story cutscenes, rotated so none repeats until all have played.
+- **Variants you control.** Pin Mario to the world map, Star Wars to the duel, or shuffle between the versions you like.
 - **Any text.** A–Z, 0–9, `. ! ? - : '`, several lines. Accents are stripped, so `Ingénieur` just works.
 - **Light.** One `<canvas>`, a few hundred rectangles a frame, no React re-renders and zero runtime dependencies. Each scene is its own chunk, downloaded only when it is about to play.
 - **Polite.** Pauses off-screen and in hidden tabs. Under `prefers-reduced-motion` it draws the finished wordmark once.
@@ -59,6 +60,7 @@ All optional. Any other prop (`id`, `onClick`…) is passed to the `<canvas>`.
 | `build`       | `BuildName`                                                              | —             | Pin one build; it replays every cycle.                                               |
 | `builds`      | `BuildName[]`                                                            | all           | Only rotate through these.                                                           |
 | `games`       | `boolean`                                                                | `true`        | Include the game & story scenes (single-line text only).                             |
+| `variants`    | `{ [scene]: { [key]: value | value[] } }`                               | all random    | Choose scene variants. See [Scene variants](#scene-variants).                        |
 | `colorStyle`  | `'bands' \| 'solid' \| 'letters' \| 'mosaic' \| 'stripes'`               | rotates       | Pin one colour style.                                                                |
 | `label`       | `string`                                                                 | first word    | Short text some scenes print (XP installer, Street Fighter HUD, Marauder's Map).     |
 | `hold`        | `number`                                                                 | `6`           | Seconds the finished wordmark holds before it rebuilds.                              |
@@ -122,8 +124,44 @@ Many scenes pick random variants each play (Mario or Luigi, which ghosts chase P
 `CATALOG` exports every build's `name`, `title`, `kind`, `tags` and `description` if you want to build your own picker:
 
 ```js
-import { CATALOG, CLASSIC_BUILD_NAMES, SCENE_BUILD_NAMES } from 'pixelmark'
+import { CATALOG, VARIANTS, CLASSIC_BUILD_NAMES, SCENE_BUILD_NAMES } from 'pixelmark'
 ```
+
+## Scene variants
+
+Most scenes roll their own dice every play: Mario or Luigi, a lightsaber duel or a space battle, which Dragon Ball villain shows up. `variants` lets you decide, per scene. A single value pins it, an array shuffles between only those values, and any key you leave out stays random.
+
+```jsx
+<Pixelmark
+  text="Hello"
+  builds={['mario', 'starwars', 'dragonball']}
+  variants={{
+    mario: { mode: 'map', hero: 'luigi' },   // always the world map, always Luigi
+    starwars: { scene: ['duel', 'space'] },   // a duel or a space battle, never blasters
+    dragonball: { mode: 'spirit' },           // the Spirit Bomb, every time
+  }}
+/>
+```
+
+| Scene | Keys |
+| --- | --- |
+| `mario` | `mode` (run, map) · `hero` (mario, luigi) · `world` (over, under) · `ending` (pipe, flag) · `star` |
+| `pacman` | `direction` (ltr, rtl) · `ghosts` (2, 3) · `cherry` |
+| `snake` | `screen` (modern, nokia) · `snakes` (many, two) |
+| `invaders` | `invader` (mixed, crab, squid) · `ufo` |
+| `streetfighter` | `winner` (L, R) |
+| `minecraft` | `direction` · `dragon` |
+| `sonic` | `direction` · `tails` · `eggman` |
+| `amongus` | `story` (kill, eject) · `kill` (knife, tongue) |
+| `angrybirds` | `material` (mixed, wood, ice, stone) |
+| `donkeykong` | `direction` · `blueBarrels` |
+| `harrypotter` | `spell` (map, patronus) · `direction` |
+| `dragonball` | `mode` (solo, win, rescue, duo, spirit) · `villain` (broly, frieza, jiren, beerus) · `hero` (goku, vegeta, piccolo) · `form` (base, ssj1, ssj2, ssj3, ssg, ui, transform) · `helper` (vegeta, piccolo) · `direction` |
+| `sahara` | `time` (dusk, night, noon) · `camels` (2, 3) · `palm` |
+| `sidibousaid` | `doors` (mixed, blue, yellow) · `cat` |
+| `starwars` | `scene` (duel, space, blasters) · `blade` (blue, green, purple) · `doubleBlade` · `direction` |
+
+Keys without listed values are `true`/`false`. `VARIANTS` exports all of this with labels, for building your own picker.
 
 ## Without React
 
@@ -156,6 +194,7 @@ pixelmark/
 │   │   └── builds/            one file per game & story scene
 │   └── test/
 ├── apps/site/                 the showcase site (Vite + React + Tailwind)
+│   └── scripts/               prerender (per-route SEO, sitemap) and social-image rendering
 └── .github/workflows/         CI and npm release
 ```
 
