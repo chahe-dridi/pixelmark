@@ -1,6 +1,6 @@
 // Pixel wordmark build: Space Invaders. Loaded on demand by the engine.
 
-import { MINT, SCENE_TOP, clamp01, drawSprite, hostOf, inOut, isNarrow, lerp, letterMid, outCubic, shuffled, spriteW, PAD_T } from '../engine/kit'
+import { MINT, SCENE_TOP, clamp01, drawSprite, hostOf, inOut, isNarrow, lerp, letterMid, outCubic, shuffled, spriteW, PAD_T, choose } from '../engine/kit'
 
 // ═══ Space Invaders ══════════════════════════════════════════════════════
 export const INVADER = [
@@ -17,12 +17,13 @@ const BURST = [[0, 0], [-2, -2], [2, -2], [-2, 2], [2, 2], [0, -3], [0, 3], [-3,
 
 const invaders = {
   name: 'invaders',
-  setup(L, S) {
+  setup(L, S, V) {
     this.order = shuffled(L.CX0.length).filter((ci) => !isNarrow(L, ci))
     this.kill = L.CX0.map((_, ci) => 0.6 + this.order.indexOf(hostOf(L, ci)) * 0.3)
-    this.kind = L.CX0.map(() => (Math.random() < 0.3 ? SQUID : INVADER))
+    const kind = choose(V, 'invader', () => 'mixed')
+    this.kind = L.CX0.map(() => (kind === 'squid' || (kind === 'mixed' && Math.random() < 0.3) ? SQUID : INVADER))
     this.acc = L.CX0.map(() => false)
-    this.ufo = Math.random() < 0.6 ? (Math.random() < 0.5 ? 1 : -1) : 0
+    this.ufo = choose(V, 'ufo', () => Math.random() < 0.6) ? (Math.random() < 0.5 ? 1 : -1) : 0
     for (let i = 0; i < L.N; i++) {
       if (L.ACC[i]) this.acc[hostOf(L, L.CI[i])] = true
       S.SX[i] = letterMid(L, hostOf(L, L.CI[i])); S.SY[i] = PAD_T + 5
