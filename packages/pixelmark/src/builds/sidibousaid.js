@@ -1,6 +1,6 @@
 // Pixel wordmark build: Sidi Bou Said. Loaded on demand by the engine.
 
-import { GH, GROUND, SCENE_TOP, clamp01, disc, drawSprite, fadeInOut, finalColor, hash, hostOf, inOut, mainLetters, pick, rand, shuffled, PAD_T } from '../engine/kit'
+import { GH, GROUND, SCENE_TOP, clamp01, disc, drawSprite, fadeInOut, finalColor, hash, hostOf, inOut, mainLetters, pick, rand, shuffled, PAD_T, choose } from '../engine/kit'
 
 // ═══ Sidi Bou Said ═══════════════════════════════════════════════════════
 const SBS = {
@@ -13,19 +13,20 @@ const CAT = [['.K.....KK.', '.K.....KKK', 'K.KKKKKKKK', '.KKKKKKKK.', '.K.K..K.K
 
 const sidibousaid = {
   name: 'sidibousaid',
-  setup(L, S) {
+  setup(L, S, V) {
+    const doors = choose(V, 'doors', () => 'mixed')
     const mains = mainLetters(L)
     const order = shuffled(mains.length)
     this.doors = mains.map((ci, k) => ({
       ci, x0: L.CX0[ci] - 0.5, x1: L.CX1[ci] + 1.5, at: 0.5 + order[k] * 0.28,
-      colors: Math.random() < 0.2 ? SBS.yellow : SBS.blue,
+      colors: doors === 'yellow' || (doors === 'mixed' && Math.random() < 0.2) ? SBS.yellow : SBS.blue,
     }))
     const openAt = L.CX0.map((_, ci) => this.doors.find((dr) => dr.ci === hostOf(L, ci)).at)
     for (let i = 0; i < L.N; i++) {
       S.SX[i] = L.X[i]; S.SY[i] = L.Y[i]
       S.DL[i] = openAt[L.CI[i]] + 0.22 + (hash(i, 8, 8) / 1000) * 0.12; S.DU[i] = 0.35
     }
-    this.cat = Math.random() < 0.65 ? (Math.random() < 0.5 ? 1 : -1) : 0
+    this.cat = choose(V, 'cat', () => Math.random() < 0.65) ? (Math.random() < 0.5 ? 1 : -1) : 0
     this.blooms = Array.from({ length: 16 }, () => {
       const left = Math.random() < 0.5
       return { x: left ? rand(0, 12) : rand(L.cols - 12, L.cols), y: rand(SCENE_TOP + 0.2, SCENE_TOP + 2.6), r: rand(0.4, 0.8), c: pick(SBS.bloom), ph: rand(0, 6) }
