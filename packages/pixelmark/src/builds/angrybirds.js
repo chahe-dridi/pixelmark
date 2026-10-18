@@ -1,6 +1,6 @@
 // Pixel wordmark build: Angry Birds. Loaded on demand by the engine.
 
-import { GROUND, clamp01, disc, drawSprite, drawTextCentered, finalColor, hash, hostOf, lerp, letterMid, mainLetters, pick, rand, ring, shuffled, stepParticles, PAD_T } from '../engine/kit'
+import { GROUND, clamp01, disc, drawSprite, drawTextCentered, finalColor, hash, hostOf, lerp, letterMid, mainLetters, pick, rand, ring, shuffled, stepParticles, PAD_T, choose } from '../engine/kit'
 
 // ═══ Angry Birds ═════════════════════════════════════════════════════════
 export const BIRDS = {
@@ -17,7 +17,7 @@ const AB = { gap: 0.85, load: 0.3, flight: 0.62, pouch: [2.4, GROUND - 6.6] }
 
 const angrybirds = {
   name: 'angrybirds',
-  setup(L, S) {
+  setup(L, S, V) {
     const mains = mainLetters(L)
     const groups = [[], [], []]
     mains.forEach((ci, k) => groups[Math.min(2, Math.floor((k * 3) / mains.length))].push(ci))
@@ -28,7 +28,8 @@ const angrybirds = {
       return { letters, kind: kinds[k], ts, launch: ts + AB.load, impact: ts + AB.load + AB.flight, tx: letterMid(L, mid), ty: PAD_T + 6, hit: false }
     })
     const matNames = Object.keys(MATS)
-    this.mat = L.CX0.map(() => pick(matNames))
+    const mat = choose(V, 'material', () => 'mixed')
+    this.mat = L.CX0.map(() => (MATS[mat] ? mat : pick(matNames)))
     L.CX0.forEach((_, ci) => { this.mat[ci] = this.mat[hostOf(L, ci)] })
     this.pigs = shuffled(mains.length).slice(0, 3).map((k) => ({ ci: mains[k], popped: false }))
     const impactOf = L.CX0.map((_, ci) => this.shots.find((s) => s.letters.includes(hostOf(L, ci))).impact)
