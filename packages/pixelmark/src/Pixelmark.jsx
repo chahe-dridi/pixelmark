@@ -16,6 +16,7 @@ const Pixelmark = forwardRef(function Pixelmark(
     build,
     builds,
     games = true,
+    variants,
     colorStyle,
     label,
     hold = 6,
@@ -51,6 +52,7 @@ const Pixelmark = forwardRef(function Pixelmark(
   const paletteKey = typeof palette === 'string' ? palette : JSON.stringify(palette)
   const buildsKey = Array.isArray(builds) ? builds.join(',') : ''
   const accentKey = Array.isArray(accent) ? accent.join(',') : accent
+  const variantsKey = variants ? JSON.stringify(variants) : ''
 
   useEffect(() => {
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
@@ -62,6 +64,7 @@ const Pixelmark = forwardRef(function Pixelmark(
         accent: Array.isArray(accent) ? accent : accentKey,
         palette: typeof palette === 'string' ? palette : JSON.parse(paletteKey),
         tone, build, builds: buildsKey ? buildsKey.split(',') : null, games, colorStyle, label, hold,
+        variants: variantsKey ? JSON.parse(variantsKey) : undefined,
         loop, interactive, ambient, reduced,
         onBuild: (name) => onBuildRef.current?.(name),
       })
@@ -72,7 +75,7 @@ const Pixelmark = forwardRef(function Pixelmark(
       engineRef.current = null
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [glyphText, accentKey, paletteKey, tone, build, buildsKey, games, colorStyle, label, hold, loop, interactive, ambient])
+  }, [glyphText, accentKey, paletteKey, tone, build, buildsKey, variantsKey, games, colorStyle, label, hold, loop, interactive, ambient])
 
   return (
     <canvas
