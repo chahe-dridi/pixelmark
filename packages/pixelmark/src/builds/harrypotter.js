@@ -7,7 +7,7 @@
 //             stag bursts out and gallops across, and the letters light up
 //             in its shimmering wake
 
-import { GROUND, SCENE_TOP, hash, clamp01, outCubic, rand, pick, drawSprite, drawText, drawTextCentered, textWidth, stroke, disc, finalColor } from '../engine/kit'
+import { GROUND, SCENE_TOP, hash, clamp01, outCubic, rand, pick, drawSprite, drawText, drawTextCentered, textWidth, stroke, disc, finalColor, choose, dirOf } from '../engine/kit'
 
 const PARCH = { base: '#E9DAB2', dark: '#CDB88A', edge: '#B89E6A', ink: '#4A2C14', faint: '#8A6A44' }
 export const STAG = [
@@ -21,8 +21,9 @@ const MANAGED = 'MISCHIEF MANAGED'
 
 const harrypotter = {
   name: 'harrypotter',
-  setup(L, S) {
-    this.spell = Math.random() < 0.55 ? 'map' : 'patronus'
+  setup(L, S, V) {
+    this.V = V
+    this.spell = choose(V, 'spell', () => (Math.random() < 0.55 ? 'map' : 'patronus'))
     return this.spell === 'map' ? this.setupMap(L, S) : this.setupPatronus(L, S)
   },
   setupMap(L, S) {
@@ -42,7 +43,7 @@ const harrypotter = {
     return 4.1
   },
   setupPatronus(L, S) {
-    const d = this.dir = Math.random() < 0.5 ? 1 : -1
+    const d = this.dir = dirOf(this.V)
     this.wandX = d > 0 ? 1.5 : L.cols - 1.5
     this.t0 = 0.8
     this.v = (L.cols + 16) / 2.1
