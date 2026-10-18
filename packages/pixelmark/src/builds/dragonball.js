@@ -14,7 +14,7 @@
 //   spirit  the Spirit Bomb gathers above and drops; a shockwave reveals all
 // The letters light up wherever the hero's beam has reached.
 
-import { PAD_T, GROUND, hash, clamp01, lerp, inOut, follow, rand, pick, disc, drawSprite, drawText, textWidth, ring, finalColor } from '../engine/kit'
+import { PAD_T, GROUND, hash, clamp01, lerp, inOut, follow, rand, pick, disc, drawSprite, drawText, textWidth, ring, finalColor, choose, dirOf } from '../engine/kit'
 
 // ── Goku and Vegeta (12×18) ───────────────────────────────────────────────
 const HAIR = {
@@ -107,21 +107,25 @@ const V = 66
 
 const dragonball = {
   name: 'dragonball',
-  setup(L, S) {
-    this.mode = pick(['solo', 'win', 'rescue', 'duo', 'win', 'rescue', 'spirit'])
-    const d = this.dir = Math.random() < 0.5 ? 1 : -1
+  setup(L, S, opt) {
+    this.mode = choose(opt, 'mode', () => pick(['solo', 'win', 'rescue', 'duo', 'win', 'rescue', 'spirit']))
+    const d = this.dir = dirOf(opt)
+    // who stars in a solo scene: Goku, or sometimes Vegeta or Piccolo
+    const star = choose(opt, 'hero', () => { const r = Math.random(); return r < 0.3 ? 'vegeta' : r < 0.51 ? 'piccolo' : 'goku' })
     const clash = this.mode === 'win' || this.mode === 'rescue' || this.mode === 'duo'
     // in rescue / duo scenes Goku stands a little in, so Vegeta fits beside him
     const inset = this.mode === 'rescue' || this.mode === 'duo' ? 7.5 : 0.6
     this.fx = d > 0 ? inset : L.cols - inset - GW
     this.vegFx = d > 0 ? 0.4 : L.cols - 0.4 - GW
-    this.vegeta = this.mode === 'solo' && Math.random() < 0.3
+    this.vegeta = this.mode === 'solo' && star === 'vegeta'
     this.colors = BEAMS[this.vegeta ? 'galick' : 'kame']
-    this.forms = this.mode === 'solo' && Math.random() < 0.45 ? [[0, 'base'], [0.55, 'ssj1'], [0.9, 'ssj2'], [1.25, pick(['ssj3', 'ssg'])]] : [[0, pick(['base', 'ssj1', 'ssj2', 'ui', 'ssj3', 'ssg'])]]
-    // who stars: Goku, or in a solo scene sometimes Vegeta or Piccolo
-    this.piccolo = this.mode === 'solo' && !this.vegeta && Math.random() < 0.3
+    let form = choose(opt, 'form', () => (this.mode === 'solo' && Math.random() < 0.45 ? 'transform' : pick(['base', 'ssj1', 'ssj2', 'ui', 'ssj3', 'ssg'])))
+    // the power-up sequence only plays in a solo scene
+    if (form === 'transform' && this.mode !== 'solo') form = 'ssj2'
+    this.forms = form === 'transform' ? [[0, 'base'], [0.55, 'ssj1'], [0.9, 'ssj2'], [1.25, pick(['ssj3', 'ssg'])]] : [[0, FORMS[form] ? form : 'base']]
+    this.piccolo = this.mode === 'solo' && star === 'piccolo'
     if (this.piccolo) { this.forms = [[0, 'base']]; this.colors = ['#FFFFFF', '#FFF6A0', '#FFE45A', '#B8901A'] }
-    this.helper = this.mode === 'rescue' && Math.random() < 0.4 ? 'piccolo' : 'vegeta'
+    this.helper = this.mode === 'rescue' ? choose(opt, 'helper', () => (Math.random() < 0.4 ? 'piccolo' : 'vegeta')) : 'vegeta'
     this.rocks = Array.from({ length: 8 }, () => ({ x: this.fx + GW / 2 + rand(-7, 7), y0: GROUND - rand(0.2, 0.8), rise: rand(2, 5), s: rand(0.4, 0.9) }))
     this.fire = 1.5
     this.hx = d > 0 ? this.fx + GW : this.fx
@@ -138,7 +142,8 @@ const dragonball = {
       return this.ti + far / 34 + 1.0
     }
     if (clash) {
-      this.villain = VILLAINS[pick(Object.keys(VILLAINS))]
+      const foe = choose(opt, 'villain', () => pick(Object.keys(VILLAINS)))
+      this.villain = VILLAINS[foe] || VILLAINS.broly
       const top = this.villain.forms[this.villain.forms.length - 1]
       const vw = 16 * top.sc, vh = 22 * top.sc
       this.vsc = top.sc
