@@ -1,6 +1,6 @@
 {
   "name": "react-pixelmark",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Animated pixel-art wordmarks for React: 19 classic pixel effects and 16 game & story cutscenes (Mario, Pac-Man, Street Fighter, Star Wars…) that build your text on a single canvas.",
   "type": "module",
   "license": "MIT",

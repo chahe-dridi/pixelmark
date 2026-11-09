@@ -6,6 +6,8 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-11-09
+
 ### Fixed
 
 - README and npm links point at the live demo, pixelmark-site.vercel.app.
