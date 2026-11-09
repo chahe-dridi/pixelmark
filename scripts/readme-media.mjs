@@ -29,6 +29,7 @@ const CLIPS = {
   streetfighter: { text: 'PIXELMARK', builds: ['streetfighter'], width: 560, palette: 'rose' },
 }
 const FPS = 15
+const SPEED = 0.7 // playback speed: below 1 plays the clips slower than real time, easier to follow
 
 const chromePath = process.env.CHROME_PATH || [
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
@@ -66,7 +67,7 @@ try {
     const page = await browser.newPage()
     await page.setViewport({ width: clip.width, height: 400 })
     await page.goto(base)
-    const b64 = await page.evaluate(async (c, fps, bg) => {
+    const b64 = await page.evaluate(async (c, fps, bg, speed) => {
       const { mount, wordmarkSize } = await import('/vanilla.js')
       const { GIFEncoder, quantize, applyPalette } = await import('/gifenc/gifenc.esm.js')
       const canvas = document.getElementById('c')
@@ -112,7 +113,7 @@ try {
       const sample = new Uint8ClampedArray(frames.filter((_, i) => i % step === 0).flatMap((f) => [...f]))
       const palette = quantize(sample, 64)
       const gif = GIFEncoder()
-      for (const f of frames) gif.writeFrame(applyPalette(f, palette), w, h, { palette, delay: Math.round(1000 / fps) })
+      for (const f of frames) gif.writeFrame(applyPalette(f, palette), w, h, { palette, delay: Math.round(1000 / fps / speed) })
       gif.finish()
 
       // contact sheet of 8 evenly spaced frames, to check a clip without a GIF viewer
@@ -128,7 +129,7 @@ try {
       let s = ''
       for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000))
       return { gif: btoa(s), sheet: sheet.toDataURL('image/png').split(',')[1], frames: frames.length }
-    }, clip, FPS, BG)
+    }, clip, FPS, BG, SPEED)
     const file = join(OUT, `${name}.gif`)
     writeFileSync(file, Buffer.from(b64.gif, 'base64'))
     if (process.env.SHEET) writeFileSync(join(process.env.SHEET, `${name}-sheet.png`), Buffer.from(b64.sheet, 'base64'))
