@@ -9,9 +9,11 @@ Give it any text and it builds it out of pixels: with a laser, falling sand, Mat
 [![npm](https://img.shields.io/npm/v/pixelmark?color=3B82F6)](https://www.npmjs.com/package/pixelmark)
 [![bundle](https://img.shields.io/bundlephobia/minzip/pixelmark?label=core%20gzip&color=3B82F6)](https://bundlephobia.com/package/pixelmark)
 [![CI](https://github.com/chahe-dridi/pixelmark/actions/workflows/ci.yml/badge.svg)](https://github.com/chahe-dridi/pixelmark/actions/workflows/ci.yml)
-[![license](https://img.shields.io/github/license/chahe-dridi/pixelmark?color=3B82F6)](./LICENSE)
+[![license](https://img.shields.io/github/license/chahe-dridi/pixelmark?color=3B82F6)](https://github.com/chahe-dridi/pixelmark/blob/main/LICENSE)
 
 **[Live gallery](https://pixelmark.vercel.app/gallery)** · **[Playground](https://pixelmark.vercel.app/playground)** · **[Docs](https://pixelmark.vercel.app/docs)**
+
+<img src="https://raw.githubusercontent.com/chahe-dridi/pixelmark/main/.github/media/hero.gif" alt="The word PIXELMARK building itself four ways: with a laser, falling sand, Matrix rain and a game of Tetris" width="720">
 
 </div>
 
@@ -115,6 +117,23 @@ Indices count every character of the text, spaces and line breaks included.
 
 ## Builds
 
+### Game & story scenes in action
+
+<table>
+  <tr>
+    <td align="center"><img src="https://raw.githubusercontent.com/chahe-dridi/pixelmark/main/.github/media/mario.gif" alt="Mario runs through the letters, bumping brick and question blocks, stomping a Goomba and reaching the flagpole" width="400"><br><code>mario</code></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/chahe-dridi/pixelmark/main/.github/media/starwars.gif" alt="A Star Wars opening crawl, then a Jedi and a Sith duel with lightsabers as the letters light up" width="400"><br><code>starwars</code></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="https://raw.githubusercontent.com/chahe-dridi/pixelmark/main/.github/media/dragonball.gif" alt="Goku fires a Kamehameha that sweeps the letters into place" width="400"><br><code>dragonball</code></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/chahe-dridi/pixelmark/main/.github/media/streetfighter.gif" alt="Ryu and Ken fight a Street Fighter round with health bars; every hit reveals part of the word" width="400"><br><code>streetfighter</code></td>
+  </tr>
+</table>
+
+Every clip is the library itself, recorded with `npm run media`. Try any build live in the [playground](https://pixelmark.vercel.app/playground).
+
+### All builds
+
 **Classic** (any text, multi-line too): `assemble` `stack` `scan` `rise` `glitch` `converge` `laser` `sand` `lightning` `matrix` `puzzle` `portal` `halftone` `weave` `tetris` `slash` `flip` `ripple` `type`
 
 **Game & story scenes** (single line, each lazily loaded): `mario` `pacman` `snake` `invaders` `xpboot` `streetfighter` `minecraft` `sonic` `amongus` `angrybirds` `donkeykong` `harrypotter` `dragonball` `sahara` `sidibousaid` `starwars`
@@ -205,11 +224,12 @@ npm install
 npm run dev       # the showcase site, hot-reloading the library from source
 npm test          # library tests
 npm run build     # library + site
+npm run media     # re-record the README GIFs (needs Chrome; run build:lib first)
 ```
 
 ## Versioning and releases
 
-pixelmark follows [Semantic Versioning](https://semver.org/). Changes are recorded in [CHANGELOG.md](./CHANGELOG.md) under `## [Unreleased]` as they land. To cut a release:
+pixelmark follows [Semantic Versioning](https://semver.org/). Changes are recorded in [CHANGELOG.md](https://github.com/chahe-dridi/pixelmark/blob/main/CHANGELOG.md) under `## [Unreleased]` as they land. To cut a release:
 
 ```bash
 npm run release -- patch   # or minor / major: bumps, stamps the changelog, commits, tags
@@ -218,7 +238,7 @@ git push --follow-tags     # the Release workflow publishes the tag to npm
 
 ## Contributing
 
-New builds are very welcome. The contract is short; see [CONTRIBUTING.md](./CONTRIBUTING.md).
+New builds are very welcome. The contract is short; see [CONTRIBUTING.md](https://github.com/chahe-dridi/pixelmark/blob/main/CONTRIBUTING.md).
 
 ## Credits
 
@@ -226,4 +246,4 @@ Originally built for the [Cubexio](https://www.cubexio.com) site and Chaher Drid
 
 ## License
 
-[MIT](./LICENSE) © 2026 Chaher Dridi
+[MIT](https://github.com/chahe-dridi/pixelmark/blob/main/LICENSE) © 2026 Chaher Dridi
