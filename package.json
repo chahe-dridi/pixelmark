@@ -8,11 +8,11 @@
   ],
   "scripts": {
     "dev": "npm run dev -w @pixelmark/site",
-    "build": "npm run build -w pixelmark && npm run build -w @pixelmark/site",
-    "build:lib": "npm run build -w pixelmark",
+    "build": "npm run build -w react-pixelmark && npm run build -w @pixelmark/site",
+    "build:lib": "npm run build -w react-pixelmark",
     "build:site": "npm run build -w @pixelmark/site",
     "preview": "npm run preview -w @pixelmark/site",
-    "test": "npm test -w pixelmark",
+    "test": "npm test -w react-pixelmark",
     "release": "node scripts/release.mjs",
     "media": "node scripts/readme-media.mjs"
   },

@@ -18,4 +18,4 @@ jobs:
       - run: npm test
       - run: npm run build
       - name: Check the package contents
-        run: npm pack --dry-run -w pixelmark
+        run: npm pack --dry-run -w react-pixelmark

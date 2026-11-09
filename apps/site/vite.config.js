@@ -13,8 +13,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: [
-      { find: /^pixelmark\/vanilla$/, replacement: lib('vanilla.js') },
-      { find: /^pixelmark$/, replacement: lib('index.js') },
+      { find: /^react-pixelmark\/vanilla$/, replacement: lib('vanilla.js') },
+      { find: /^react-pixelmark$/, replacement: lib('index.js') },
     ],
   },
   define: {

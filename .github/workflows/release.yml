@@ -25,7 +25,7 @@ jobs:
       - run: npm run build:lib
       - name: Tag matches package version
         run: test "v$(node -p "require('./packages/pixelmark/package.json').version")" = "$GITHUB_REF_NAME"
-      - run: npm publish -w pixelmark --provenance --access public
+      - run: npm publish -w react-pixelmark --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: GitHub release
