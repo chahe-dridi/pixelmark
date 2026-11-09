@@ -6,6 +6,8 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-09
+
 ### Added
 
 - `variants` option: choose each scene's variants (pin one value, or shuffle between a list). Covers 15 scenes, e.g. Mario's level and hero, Star Wars' scene and blade, Dragon Ball's mode, villain and form.
