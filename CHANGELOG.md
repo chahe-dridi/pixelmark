@@ -6,6 +6,10 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- The README shows animated GIFs of the builds, and its links work on the npm page too.
+
 ## [0.2.0] - 2026-11-09
 
 ### Added
