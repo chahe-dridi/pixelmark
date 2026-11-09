@@ -3,7 +3,7 @@
 // crawlers and link previews see them without running JavaScript.
 // Plain data only: no imports, so Node can load this file as is.
 
-export const SITE_URL = 'https://pixelmark.vercel.app'
+export const SITE_URL = 'https://pixelmark-site.vercel.app'
 export const SITE_NAME = 'pixelmark'
 
 const DEFAULT_DESCRIPTION =
