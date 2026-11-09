@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { CATALOG, CLASSIC_BUILD_NAMES, PALETTES, Pixelmark, SCENE_BUILD_NAMES, VARIANTS } from 'pixelmark'
+import { CATALOG, CLASSIC_BUILD_NAMES, PALETTES, Pixelmark, SCENE_BUILD_NAMES, VARIANTS } from 'react-pixelmark'
 import CodeBlock, { InstallCommand } from '../components/CodeBlock'
 import { ArrowIcon, SkipIcon } from '../components/Icons'
 import Marquee from '../components/Marquee'
@@ -13,7 +13,7 @@ import { useSEO } from '../lib/useSEO'
 const byName = Object.fromEntries(CATALOG.map((b) => [b.name, b]))
 const HERO_PALETTES = ['ocean', 'ember', 'mint', 'violet', 'rose']
 
-const QUICK_START = `import { Pixelmark } from 'pixelmark'
+const QUICK_START = `import { Pixelmark } from 'react-pixelmark'
 
 export default function Hero() {
   return (
@@ -247,7 +247,7 @@ export default function Home() {
           <h2 className="mt-3 text-4xl font-bold tracking-tight text-fg sm:text-5xl">Three lines to a hero.</h2>
           <ol className="mt-10 space-y-7">
             {[
-              ['Install it', 'npm install pixelmark. React 18 or newer is the only peer.'],
+              ['Install it', 'npm install react-pixelmark. React 18 or newer is the only peer.'],
               ['Give it text', 'It fills its container, keeps its aspect ratio and follows your light/dark theme.'],
               ['Tune it', 'Palette, accent words, a single build or a shortlist, scene variants, hold time. Or skip React and use mount().'],
             ].map(([t, b], i) => (

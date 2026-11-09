@@ -31,5 +31,5 @@ export function toJsx(o, name = 'Logo') {
   }
   const one = `<Pixelmark ${props.join(' ')} />`
   const body = one.length <= 72 ? one : `<Pixelmark\n${props.map((p) => `  ${p}`).join('\n')}\n/>`
-  return `import { Pixelmark } from 'pixelmark'\n\nexport default function ${name}() {\n  return (\n${body.split('\n').map((l) => `    ${l}`).join('\n')}\n  )\n}`
+  return `import { Pixelmark } from 'react-pixelmark'\n\nexport default function ${name}() {\n  return (\n${body.split('\n').map((l) => `    ${l}`).join('\n')}\n  )\n}`
 }

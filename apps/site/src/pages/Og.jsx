@@ -1,4 +1,4 @@
-import { Pixelmark } from 'pixelmark'
+import { Pixelmark } from 'react-pixelmark'
 import Logo from '../components/Logo'
 import { useSEO } from '../lib/useSEO'
 

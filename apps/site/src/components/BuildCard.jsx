@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Pixelmark } from 'pixelmark'
+import { Pixelmark } from 'react-pixelmark'
 import { ArrowIcon, LayersIcon, SkipIcon } from './Icons'
 import VariantPicker from './VariantPicker'
 import { countPicks, toSceneVariants } from '../lib/variants'

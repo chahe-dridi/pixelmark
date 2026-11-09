@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Pixelmark } from 'pixelmark'
+import { Pixelmark } from 'react-pixelmark'
 import Stage from '../components/Stage'
 import { useSEO } from '../lib/useSEO'
 

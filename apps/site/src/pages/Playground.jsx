@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { BUILD_NAMES, CATALOG, COLOR_STYLES, Pixelmark } from 'pixelmark'
+import { BUILD_NAMES, CATALOG, COLOR_STYLES, Pixelmark } from 'react-pixelmark'
 import CodeBlock from '../components/CodeBlock'
 import { Field, PaletteSwatches, Segmented, Toggle, inputClass } from '../components/Controls'
 import { ChevronIcon, ShuffleIcon, SkipIcon } from '../components/Icons'

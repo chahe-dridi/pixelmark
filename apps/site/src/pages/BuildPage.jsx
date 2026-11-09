@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { CATALOG, Pixelmark } from 'pixelmark'
+import { CATALOG, Pixelmark } from 'react-pixelmark'
 import BuildCard from '../components/BuildCard'
 import CodeBlock from '../components/CodeBlock'
 import { Field, PaletteSwatches, inputClass } from '../components/Controls'

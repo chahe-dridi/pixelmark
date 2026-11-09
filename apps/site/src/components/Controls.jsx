@@ -1,4 +1,4 @@
-import { PALETTES, PALETTE_NAMES } from 'pixelmark'
+import { PALETTES, PALETTE_NAMES } from 'react-pixelmark'
 
 // Small form controls shared by the gallery filters and the playground
 

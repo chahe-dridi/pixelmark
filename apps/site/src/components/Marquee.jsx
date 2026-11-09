@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CATALOG } from 'pixelmark'
+import { CATALOG } from 'react-pixelmark'
 
 // Every build's name, scrolling. Each one links to its page. The list is
 // doubled so the loop is seamless; the copy is hidden from screen readers.

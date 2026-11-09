@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CATALOG, PALETTES, PALETTE_NAMES, Pixelmark, VARIANTS } from 'pixelmark'
+import { CATALOG, PALETTES, PALETTE_NAMES, Pixelmark, VARIANTS } from 'react-pixelmark'
 import CodeBlock, { InstallCommand } from '../components/CodeBlock'
 import { REPO } from '../lib/site'
 import { ROUTES } from '../lib/meta'
@@ -39,7 +39,7 @@ const PROPS = [
 ]
 
 const USAGE = `import { useRef } from 'react'
-import { Pixelmark } from 'pixelmark'
+import { Pixelmark } from 'react-pixelmark'
 
 export function Hero() {
   const mark = useRef(null)
@@ -94,7 +94,7 @@ const VARIANTS_CODE = `<Pixelmark
   }}
 />`
 
-const VANILLA =`import { mount } from 'pixelmark/vanilla'
+const VANILLA =`import { mount } from 'react-pixelmark/vanilla'
 
 const mark = mount(document.querySelector('#logo'), {
   text: 'HELLO',
@@ -230,7 +230,7 @@ export default function Docs() {
 
           <H2 id="vanilla">Without React</H2>
           <p className="text-muted">
-            <Code>pixelmark/vanilla</Code> mounts the same engine on any canvas: Vue, Svelte, Astro or a plain page.
+            <Code>react-pixelmark/vanilla</Code> mounts the same engine on any canvas: Vue, Svelte, Astro or a plain page.
           </p>
           <CodeBlock title="main.js" code={VANILLA} />
 

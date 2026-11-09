@@ -1,4 +1,4 @@
-import { VARIANTS } from 'pixelmark'
+import { VARIANTS } from 'react-pixelmark'
 import { countPicks, togglePick } from '../lib/variants'
 
 // Choose a scene's variants. Each option row starts on "Any" (the scene

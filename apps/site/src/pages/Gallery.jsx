@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { CATALOG, PALETTE_NAMES, TAGS } from 'pixelmark'
+import { CATALOG, PALETTE_NAMES, TAGS } from 'react-pixelmark'
 import BuildCard from '../components/BuildCard'
 import { Field, PaletteSwatches, inputClass } from '../components/Controls'
 import { CloseIcon, FilterIcon, SearchIcon } from '../components/Icons'

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Pixelmark } from 'pixelmark'
+import { Pixelmark } from 'react-pixelmark'
 import Logo from './Logo'
 import { InstallCommand } from './CodeBlock'
 import { AUTHOR, NPM, REPO, VERSION } from '../lib/site'
