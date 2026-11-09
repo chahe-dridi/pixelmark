@@ -10,13 +10,32 @@ npm run dev     # showcase site at http://localhost:5173, reloading the library 
 npm test
 ```
 
-Work on a branch off `main` and open a pull request. CI runs the tests and both builds.
+CI runs the tests and both builds on every pull request.
+
+## Branching model
+
+- **`main`**: the released branch. npm releases are tagged from it, and the README images load from it. Nothing is pushed here directly; it only receives tested merges from `dev`.
+- **`dev`**: the integration branch. Every change lands here first, so features can be tried together before a release.
+- **`feat/*`, `fix/*`, `docs/*`**: short-lived working branches, one per change.
+
+**Pull requests always target `dev`.** When `dev` is stable, a maintainer merges it into `main` and cuts a release.
+
+```
+feat/my-change  ──PR──▶  dev  ──(tested)──▶  main  ──▶  npm release
+```
+
+```bash
+git checkout dev && git pull
+git checkout -b feat/my-change
+# …commit…
+git push -u origin feat/my-change   # then open the PR with base: dev
+```
 
 ## Commits
 
 Keep commits small and focused, one change each, with a message that says what changed and why. A prefix helps the changelog: `feat:`, `fix:`, `docs:`, `chore:`, `build:`.
 
-Add a line under `## [Unreleased]` in [CHANGELOG.md](./CHANGELOG.md) for anything a user of the package would notice.
+Add a line under `## [Unreleased]` in [CHANGELOG.md](https://github.com/chahe-dridi/pixelmark/blob/main/CHANGELOG.md) for anything a user of the package would notice.
 
 ## Adding a build
 
