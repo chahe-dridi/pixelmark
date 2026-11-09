@@ -238,7 +238,7 @@ git push --follow-tags     # the Release workflow publishes the tag to npm
 
 ## Contributing
 
-New builds are very welcome. The contract is short; see [CONTRIBUTING.md](https://github.com/chahe-dridi/pixelmark/blob/main/CONTRIBUTING.md).
+New builds are very welcome. Branch off `dev` and open your pull request **against `dev`** (`main` only receives tested merges for releases). The build contract is short; see [CONTRIBUTING.md](https://github.com/chahe-dridi/pixelmark/blob/main/CONTRIBUTING.md).
 
 ## Credits
 
