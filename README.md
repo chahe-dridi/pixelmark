@@ -11,7 +11,7 @@ Give it any text and it builds it out of pixels: with a laser, falling sand, Mat
 [![CI](https://github.com/chahe-dridi/pixelmark/actions/workflows/ci.yml/badge.svg)](https://github.com/chahe-dridi/pixelmark/actions/workflows/ci.yml)
 [![license](https://img.shields.io/github/license/chahe-dridi/pixelmark?color=3B82F6)](https://github.com/chahe-dridi/pixelmark/blob/main/LICENSE)
 
-**[Live gallery](https://pixelmark.vercel.app/gallery)** · **[Playground](https://pixelmark.vercel.app/playground)** · **[Docs](https://pixelmark.vercel.app/docs)**
+**[Live gallery](https://pixelmark-site.vercel.app/gallery)** · **[Playground](https://pixelmark-site.vercel.app/playground)** · **[Docs](https://pixelmark-site.vercel.app/docs)**
 
 <img src="https://raw.githubusercontent.com/chahe-dridi/pixelmark/main/.github/media/hero.gif" alt="The word PIXELMARK building itself four ways: with a laser, falling sand, Matrix rain and a game of Tetris" width="720">
 
@@ -130,7 +130,7 @@ Indices count every character of the text, spaces and line breaks included.
   </tr>
 </table>
 
-Every clip is the library itself, recorded with `npm run media`. Try any build live in the [playground](https://pixelmark.vercel.app/playground).
+Every clip is the library itself, recorded with `npm run media`. Try any build live in the [playground](https://pixelmark-site.vercel.app/playground).
 
 ### All builds
 
@@ -138,7 +138,7 @@ Every clip is the library itself, recorded with `npm run media`. Try any build l
 
 **Game & story scenes** (single line, each lazily loaded): `mario` `pacman` `snake` `invaders` `xpboot` `streetfighter` `minecraft` `sonic` `amongus` `angrybirds` `donkeykong` `harrypotter` `dragonball` `sahara` `sidibousaid` `starwars`
 
-Many scenes pick random variants each play (Mario or Luigi, which ghosts chase Pac-Man, which Dragon Ball villain shows up…). See them all in the [gallery](https://pixelmark.vercel.app/gallery).
+Many scenes pick random variants each play (Mario or Luigi, which ghosts chase Pac-Man, which Dragon Ball villain shows up…). See them all in the [gallery](https://pixelmark-site.vercel.app/gallery).
 
 `CATALOG` exports every build's `name`, `title`, `kind`, `tags` and `description` if you want to build your own picker:
 
