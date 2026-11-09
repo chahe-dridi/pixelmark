@@ -6,6 +6,8 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-11-09
+
 ### Changed
 
 - The package is published as `react-pixelmark` (npm does not allow `pixelmark`, too close to an existing name). Install with `npm install react-pixelmark` and import from `react-pixelmark` or `react-pixelmark/vanilla`.
