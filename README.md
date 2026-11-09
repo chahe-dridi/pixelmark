@@ -6,8 +6,8 @@
 
 Give it any text and it builds it out of pixels: with a laser, falling sand, Matrix rain, a game of Tetris, or a whole Mario level. Then it takes itself apart and builds it again, a different way each time.
 
-[![npm](https://img.shields.io/npm/v/pixelmark?color=3B82F6)](https://www.npmjs.com/package/pixelmark)
-[![bundle](https://img.shields.io/bundlephobia/minzip/pixelmark?label=core%20gzip&color=3B82F6)](https://bundlephobia.com/package/pixelmark)
+[![npm](https://img.shields.io/npm/v/react-pixelmark?color=3B82F6)](https://www.npmjs.com/package/react-pixelmark)
+[![bundle](https://img.shields.io/bundlephobia/minzip/react-pixelmark?label=core%20gzip&color=3B82F6)](https://bundlephobia.com/package/react-pixelmark)
 [![CI](https://github.com/chahe-dridi/pixelmark/actions/workflows/ci.yml/badge.svg)](https://github.com/chahe-dridi/pixelmark/actions/workflows/ci.yml)
 [![license](https://img.shields.io/github/license/chahe-dridi/pixelmark?color=3B82F6)](https://github.com/chahe-dridi/pixelmark/blob/main/LICENSE)
 
@@ -32,7 +32,7 @@ Give it any text and it builds it out of pixels: with a laser, falling sand, Mat
 ## Install
 
 ```bash
-npm install pixelmark
+npm install react-pixelmark
 ```
 
 React 18 or newer is the only peer dependency. The package is ESM-only and safe to server-render (the engine starts in the browser only).
@@ -40,7 +40,7 @@ React 18 or newer is the only peer dependency. The package is ESM-only and safe 
 ## Quick start
 
 ```jsx
-import { Pixelmark } from 'pixelmark'
+import { Pixelmark } from 'react-pixelmark'
 
 export default function Hero() {
   return <Pixelmark text="Software Engineer" accent="rest" />
@@ -143,7 +143,7 @@ Many scenes pick random variants each play (Mario or Luigi, which ghosts chase P
 `CATALOG` exports every build's `name`, `title`, `kind`, `tags` and `description` if you want to build your own picker:
 
 ```js
-import { CATALOG, VARIANTS, CLASSIC_BUILD_NAMES, SCENE_BUILD_NAMES } from 'pixelmark'
+import { CATALOG, VARIANTS, CLASSIC_BUILD_NAMES, SCENE_BUILD_NAMES } from 'react-pixelmark'
 ```
 
 ## Scene variants
@@ -185,7 +185,7 @@ Keys without listed values are `true`/`false`. `VARIANTS` exports all of this wi
 ## Without React
 
 ```js
-import { mount } from 'pixelmark/vanilla'
+import { mount } from 'react-pixelmark/vanilla'
 
 const mark = mount(document.querySelector('#logo'), { text: 'HELLO', palette: 'violet', build: 'tetris' })
 mark.next()     // skip ahead

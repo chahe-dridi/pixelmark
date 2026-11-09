@@ -1,6 +1,6 @@
 // Framework-free entry: mount a wordmark on any <canvas>.
 //
-//   import { mount } from 'pixelmark/vanilla'
+//   import { mount } from 'react-pixelmark/vanilla'
 //   const mark = mount(document.querySelector('canvas'), { text: 'HELLO' })
 //   mark.next()     // skip to the next build
 //   mark.destroy()  // stop and clean up
